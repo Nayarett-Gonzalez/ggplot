@@ -107,3 +107,42 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x= displ, y=hwy, col= displ < 4))
 # stroke modifica el ancho del borde
 
+?ggplot
+df <- data.frame(
+  gp = factor(rep(letters[1:3], each = 10)),
+  y = rnorm(30)
+)
+
+plot(df)
+
+ds <- do.call(rbind, lapply(split(df, df$gp), function(d) {
+  data.frame(mean = mean(d$y), sd = sd(d$y), gp = d$gp)
+}))
+
+ds1 <- plyr::ddply(df,"gp", plyr::summarise, mean=mean(y), sd=sd(y))
+
+# FACETS ------------------------------------------------------------------
+
+# facet_wrap(~<VARIABLE>): La variable debe ser discreta, categoría
+ggplot(mpg) +
+  geom_point(mapping = aes(x = displ , y = hwy, col=class)) +
+  facet_wrap(~ class, nrow = 2)
+
+# facet_wrap(~<VARIABLE>): con variable continua NO ES VÁLIDO
+ggplot(mpg) +
+  geom_point(mapping = aes(x = displ , y = hwy, col=class)) +
+  facet_wrap(~ cty, nrow = 2)
+
+# geom -> relacionado con la geometría
+# facet -> relacionado con la distribución 
+
+
+# facet_wrap(<VARIABLE1>~<VARIABLE2>): La variable debe ser discreta
+ggplot(mpg) +
+  geom_point(mapping = aes(x = displ , y = hwy, col=class)) +
+  facet_grid(drv~cyl)
+
+# facet_wrap(.~<VARIABLE2>): La variable debe ser discreta
+ggplot(mpg) +
+  geom_point(mapping = aes(x = displ , y = hwy, col=class)) +
+  facet_grid(.~cyl)
