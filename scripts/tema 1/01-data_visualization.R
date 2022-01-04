@@ -41,7 +41,7 @@ ggplot(data = mpg) +
 
 
 # ggplot(data = <DATA_FRAME>) +
-#   <GEOM_FUCNTION>(mapping =aes(x =, y =))
+#   <GEOM_FUCNTION>(mapping = aes(x =, y =))
 
 
 # T1 ----------------------------------------------------------------------
@@ -65,3 +65,45 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = class, y = drv))
 # El gráfico no aporta información relevante
+
+# COLOR DE LOS PUNTOS
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy, col=class))
+
+# TAMAÑO DE LOS PUNTOS (Conviene que la variable sea numérica)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy, size=class))
+
+# alpha -> transparencia )opacidad)  de los puntos
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy, alpha=class))
+
+# Forma de los puntos (ggplot solo genera 6 formas a la vez)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy, shape = class))
+
+# Elección manual de estéticas
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy), color="red")
+
+# color, 
+# shape = forma del punto con números desde el 0 al 25
+# 0 - 14 formas sin relleno y por tanto se les puede camboar solo el color
+# 15 - 20 formas rellenas por lo tanto se puede cambiar el color
+# 21 - 25 formas con bordes y relleno -> se puede cambiar el color borde y fill (relleno) 
+d=data.frame(p=c(0:25,32:127))
+ggplot() +
+  scale_y_continuous(name="") +
+  scale_x_continuous(name="") +
+  scale_shape_identity() +
+  geom_point(data=d, mapping=aes(x=p%%16, y=p%/%16, shape=p), size=5, fill="red") +
+  geom_text(data=d, mapping=aes(x=p%%16, y=p%/%16+0.25, label=p), size=3)
+
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy), shape = 23, size = 3, color ="darkgreen", fill ="gold")
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x= displ, y=hwy, col= displ < 4))
+# stroke modifica el ancho del borde
+
